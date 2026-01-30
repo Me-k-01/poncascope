@@ -63,11 +63,11 @@ void measureTime( const std::string &actionName, Functor F ){
 template <typename Functor>
 void processRangeNeighbors(int i, Functor f){
     if(useKnnGraph)
-        for (int j : knnGraph->range_neighbors(i, NSize)){
+        for (int j : knnGraph->rangeNeighbors(i, NSize)){
             f(j);
         }
     else
-        for (int j : tree.range_neighbors(i, NSize)){
+        for (int j : tree.rangeNeighbors(i, NSize)){
             f(j);
         }
 }
@@ -282,7 +282,7 @@ Scalar evalScalarField_impl(const VectorType& input_pos)
     {
             FitT fit;
             fit.setNeighborFilter({current_pos, NSize}); // weighting function using current pos (not input pos)
-            auto res = fit.computeWithIds(tree.range_neighbors(current_pos, NSize), tree.points());
+            auto res = fit.computeWithIds(tree.rangeNeighbors(current_pos, NSize), tree.points());
             if(res == Ponca::STABLE) {
             current_pos = fit.project(input_pos); // always project input pos
             current_value = isSigned ? fit.potential(input_pos) : std::abs(fit.potential(input_pos));
